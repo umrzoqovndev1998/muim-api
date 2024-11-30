@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SchoolMemberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: SchoolMemberRepository::class)]
 #[ApiResource]
@@ -17,15 +18,19 @@ class SchoolMember
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
     private ?string $full_name = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
     private ?string $role = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
     private ?string $task = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
     private ?string $about_member = null;
 
     public function getId(): ?int

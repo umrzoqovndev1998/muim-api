@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\NewsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: NewsRepository::class)]
 #[ApiResource]
@@ -17,9 +18,11 @@ class News
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
     private ?string $content = null;
 
     #[ORM\Column]
