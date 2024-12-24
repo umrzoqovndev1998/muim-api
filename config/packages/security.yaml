@@ -12,6 +12,11 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        user_create:
+            pattern: ^/api/admins$
+            methods:
+                - post
+            security: false
         main:
             stateless: true
             provider: app_user_provider
