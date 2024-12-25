@@ -12,7 +12,7 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        user_create:
+        admin_create:
             pattern: ^/api/admins$
             methods:
                 - post

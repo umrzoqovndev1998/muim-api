@@ -6,10 +6,16 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SchoolMemberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: SchoolMemberRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['school_member:read']],
+    denormalizationContext:['groups' => ['school_member:write']]
+)]
+
+#[Groups(['school_member:read'])]
 class SchoolMember
 {
     #[ORM\Id]
@@ -19,19 +25,28 @@ class SchoolMember
 
     #[ORM\Column(length: 255)]
     #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
+    #[Groups(['school_member:write'])]
     private ?string $full_name = null;
 
     #[ORM\Column(length: 255)]
     #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
+    #[Groups(['school_member:write'])]
     private ?string $role = null;
 
     #[ORM\Column(length: 255)]
     #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
+    #[Groups(['school_member:write'])]
     private ?string $task = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[NotBlank(message:"Bo'sh bo'lishi mumkin emas")]
+    #[Groups(['school_member:write'])]
     private ?string $about_member = null;
+
+    #[ORM\OneToOne(inversedBy: 'schoolMember', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['school_member:write'])]
+    private ?MediaObject $image = null;
 
     public function getId(): ?int
     {
@@ -82,6 +97,18 @@ class SchoolMember
     public function setAboutMember(string $about_member): static
     {
         $this->about_member = $about_member;
+
+        return $this;
+    }
+
+    public function getImage(): ?MediaObject
+    {
+        return $this->image;
+    }
+
+    public function setImage(MediaObject $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
